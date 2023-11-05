@@ -6,14 +6,16 @@ import "./App.css";
 import EventPage from "./components/EventPage";
 import { Events } from "./loadData/Events";
 import { Cateogries } from "./loadData/Categories";
+import { Timelines } from "./loadData/Timelines";
 
 function App() {
+  const [timelines, setTimelines] = useState(Timelines);
   const [events, setEvents] = useState(Events);
   const [categories, setCategories] = useState(Cateogries);
 
   return (
     <>
-      <Navbar />
+      <Navbar timelines={timelines} setTimelines={setTimelines} />
       <div
         id="page"
         className="static m-auto p-8 mt-28 h-full w-full text-black font-eduTasBeginner"
@@ -23,6 +25,8 @@ function App() {
             path="/"
             element={
               <HomePage
+                timelines={timelines}
+                setTimelines={setTimelines}
                 events={events}
                 setEvents={setEvents}
                 categories={categories}
@@ -34,6 +38,8 @@ function App() {
             path="/event/*"
             element={
               <EventPage
+                timelines={timelines}
+                setTimelines={setTimelines}
                 events={events}
                 setEvents={setEvents}
                 categories={categories}

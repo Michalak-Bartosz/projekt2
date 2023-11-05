@@ -6,9 +6,7 @@ function EventPage(props) {
   const queryParams = new URLSearchParams(window.location.search);
 
   const getEvent = (id) => {
-    const event = props.events.find((event) => event.id === parseInt(id));
-    console.log(event);
-    return event;
+    return props.events.find((event) => event.id === parseInt(id));
   };
 
   const getCategory = (id) => {
