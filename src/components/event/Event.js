@@ -1,6 +1,6 @@
 import React from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
-import Category from "../category/Category";
+import CategoryAvatar from "../category/CategoryAvatar";
 import "react-vertical-timeline-component/style.min.css";
 import { Link } from "react-router-dom";
 
@@ -22,7 +22,7 @@ function Event(props) {
       dateClassName={"text-left"}
       date={props.event.startDate + " - " + props.event.endDate}
       iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-      icon={<Category category={category} />}
+      icon={<CategoryAvatar category={category} />}
     >
       <h1 className="text-2xl font-bold pb-4">{props.event.name}</h1>
       <img
