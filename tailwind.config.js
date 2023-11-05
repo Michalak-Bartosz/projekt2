@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        'eduTasBeginner': ['"Edu TAS Beginner"', 'sans-serif'],
+        'lobster': ['Lobster', 'sans-serif']
+      },
+    },
   },
   plugins: [],
 }

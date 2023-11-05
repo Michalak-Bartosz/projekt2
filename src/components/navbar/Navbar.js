@@ -5,9 +5,9 @@ function Navbar() {
   return (
     <nav
       id="navbar"
-      className="absolute m-auto top-0 left-0 p-4 w-full h-28 bg-slate-700 text-white flex place-content-between"
+      className="nav absolute m-auto top-0 left-0 p-4 w-full h-28 bg-slate-800 text-white flex place-content-between font-lobster"
     >
-      <Link id="logo" className="mx-8 my-auto font-extrabold text-6xl" to="/">
+      <Link id="logo" className="mx-4 my-auto font-extrabold text-6xl" to="/">
         TripLine
       </Link>
       <div
@@ -15,7 +15,7 @@ function Navbar() {
         className="grid grid-rows-1 grid-cols-4 justify-items-stretch my-auto text-2xl text-center"
       >
         <Link id="home-link" className="ml-4 p-4 border rounded-lg hover:bg-slate-500 font-bold" to="/">
-          HomePage
+          Home Page
         </Link>
         <Link id="create-link" className="ml-4 p-4 border rounded-lg hover:bg-slate-500 font-bold" to="/create">
           Add Trip
