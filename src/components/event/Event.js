@@ -4,7 +4,7 @@ import CategoryAvatar from "../category/CategoryAvatar";
 import "react-vertical-timeline-component/style.min.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { AiTwotoneDelete } from "react-icons/ai";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 function Event(props) {
   return (
@@ -38,18 +38,16 @@ function Event(props) {
         <div className="flex ml-auto">
           <Link
             className="flex text-cyan-700 border-2 border-cyan-700 rounded-md hover:text-cyan-500 hover:border-cyan-500 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
-            to={"/event/edit?id" + props.event.id}
+            to={"/event/edit?id=" + props.event.id}
           >
             <FaEdit className="text-2xl m-auto" />
             <label className="font-bold m-auto">Edit</label>
           </Link>
-          <button
+          <DeleteConfirmation
             className="ml-5 flex text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
-            onClick={() => console.log("Delete: " + props.event.id)}
-          >
-            <AiTwotoneDelete className="text-2xl m-auto" />
-            <label className="font-bold m-auto">Delete</label>
-          </button>
+            deleteEvent={props.deleteEvent}
+            id={props.event.id}
+          />
         </div>
       </div>
     </VerticalTimelineElement>

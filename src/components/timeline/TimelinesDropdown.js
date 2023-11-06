@@ -15,12 +15,9 @@ function TimelinesDropdown(props) {
             key={"dropdown-item-" + timeline.id}
             className="flex p-2 text-1xl"
             icon={HiViewGrid}
+            onClick={() => props.setTimelineId(timeline.id)}
           >
-            <h1
-              className="ml-2"
-              key={"link-" + timeline.id}
-              onClick={() => props.setTimelineId(timeline.id)}
-            >
+            <h1 className="ml-2" key={"link-" + timeline.id}>
               {timeline.name}
             </h1>
           </Dropdown.Item>

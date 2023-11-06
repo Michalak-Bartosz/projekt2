@@ -1,6 +1,6 @@
 import React from "react";
 import "react-vertical-timeline-component/style.min.css";
-import CategoryAvatar from "./category/CategoryAvatar";
+import CategoryAvatar from "../category/CategoryAvatar";
 
 function EventPage(props) {
   const queryParams = new URLSearchParams(window.location.search);

@@ -20,6 +20,10 @@ function HomePage(props) {
     [props.events]
   );
 
+  const deleteEvent = (id) => {
+    props.setEvents((events) => events.filter((event) => event.id !== id));
+  };
+
   const getCategory = (id) => {
     return props.categories.find((category) => category.id === id);
   };
@@ -54,6 +58,7 @@ function HomePage(props) {
             key={event.id}
             event={event}
             category={getCategory(event.categoryId)}
+            deleteEvent={deleteEvent}
           />
         ))}
       </VerticalTimeline>

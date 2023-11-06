@@ -3,11 +3,12 @@ import { Route, Routes } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/navbar/Navbar";
 import "./App.css";
-import EventPage from "./components/EventPage";
+import EventPage from "./components/event/EventPage";
 import { Events } from "./loadData/Events";
 import { Cateogries } from "./loadData/Categories";
 import { Timelines } from "./loadData/Timelines";
-import EditEventPage from "./components/EditEventPage";
+import EditEventPage from "./components/event/EditEventPage";
+import CreateEventPage from "./components/event/CreateEventPage";
 
 function App() {
   const [timelineId, setTimelineId] = useState(1);
@@ -42,6 +43,16 @@ function App() {
             }
           />
           <Route
+            path="/create"
+            element={
+              <CreateEventPage
+                events={events}
+                setEvents={setEvents}
+                categories={categories}
+              />
+            }
+          />
+          <Route
             path="/event/*"
             element={
               <EventPage
@@ -54,7 +65,17 @@ function App() {
               />
             }
           />
-          <Route path="/event/edit/*" element={<EditEventPage />} />
+          <Route
+            path="/event/edit/*"
+            element={
+              <EditEventPage
+                events={events}
+                setEvents={setEvents}
+                categories={categories}
+                setCategories={setCategories}
+              />
+            }
+          />
           <Route path="*" element={<p>Path not resolved</p>} />
         </Routes>
       </div>
