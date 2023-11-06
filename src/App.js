@@ -7,24 +7,31 @@ import EventPage from "./components/EventPage";
 import { Events } from "./loadData/Events";
 import { Cateogries } from "./loadData/Categories";
 import { Timelines } from "./loadData/Timelines";
+import EditEventPage from "./components/EditEventPage";
 
 function App() {
+  const [timelineId, setTimelineId] = useState(1);
   const [timelines, setTimelines] = useState(Timelines);
   const [events, setEvents] = useState(Events);
   const [categories, setCategories] = useState(Cateogries);
 
   return (
     <>
-      <Navbar timelines={timelines} setTimelines={setTimelines} />
+      <Navbar
+        setTimelineId={setTimelineId}
+        timelines={timelines}
+        setTimelines={setTimelines}
+      />
       <div
         id="page"
         className="static m-auto p-8 mt-28 h-full w-full text-black font-eduTasBeginner"
       >
         <Routes>
           <Route
-            path="/"
+            path="/*"
             element={
               <HomePage
+                timelineId={timelineId}
                 timelines={timelines}
                 setTimelines={setTimelines}
                 events={events}
@@ -47,6 +54,7 @@ function App() {
               />
             }
           />
+          <Route path="/event/edit/*" element={<EditEventPage />} />
           <Route path="*" element={<p>Path not resolved</p>} />
         </Routes>
       </div>

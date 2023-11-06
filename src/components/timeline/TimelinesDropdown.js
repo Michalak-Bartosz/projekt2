@@ -6,17 +6,23 @@ function TimelinesDropdown(props) {
   return (
     <div className={props.className}>
       <Dropdown inline={true} label="Timelines">
-        <Dropdown.Header>
-          <span className="block text-sm">Select your timeline!</span>
+        <Dropdown.Header className="block text-2xl underline text-white bg-slate-900 p-4">
+          <span>Select your timeline!</span>
         </Dropdown.Header>
         <Dropdown.Divider />
         {props.timelines.map((timeline) => (
           <Dropdown.Item
-            key={timeline.id}
-            className="flex p-2"
+            key={"dropdown-item-" + timeline.id}
+            className="flex p-2 text-1xl"
             icon={HiViewGrid}
           >
-            {timeline.name}
+            <h1
+              className="ml-2"
+              key={"link-" + timeline.id}
+              onClick={() => props.setTimelineId(timeline.id)}
+            >
+              {timeline.name}
+            </h1>
           </Dropdown.Item>
         ))}
       </Dropdown>

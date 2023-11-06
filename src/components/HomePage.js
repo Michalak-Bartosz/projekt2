@@ -1,26 +1,36 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Event from "./event/Event";
 import { VerticalTimeline } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 
 function HomePage(props) {
-  const queryParams = new URLSearchParams(window.location.search);
+  const getTimeline = useCallback(
+    (id) => {
+      return props.timelines.find((timeline) => timeline.id === id);
+    },
+    [props.timelines]
+  );
 
-  const getEvents = (id) => {
-    return props.events.filter((event) => event.timelineId === id);
-  };
+  const getEvents = useCallback(
+    (id) => {
+      return props.events
+        .filter((event) => event.timelineId === id)
+        .sort((a, b) => a.startDate > b.startDate);
+    },
+    [props.events]
+  );
 
   const getCategory = (id) => {
     return props.categories.find((category) => category.id === id);
   };
 
-  const getTimeline = (id) => {
-    return props.timelines.find((timeline) => timeline.id === id);
-  };
+  const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
+  const [events, setEvents] = useState(getEvents(props.timelineId));
 
-  const timelineId = queryParams.get("id");
-  const timeline = getTimeline(timelineId ? timelineId : 1);
-  const events = getEvents(timelineId ? timelineId : 1);
+  useEffect(() => {
+    setTimeline(getTimeline(props.timelineId));
+    setEvents(getEvents(props.timelineId));
+  }, [props.timelineId, getEvents, getTimeline]);
 
   return (
     <div className="h-full w-full m-auto text-center">

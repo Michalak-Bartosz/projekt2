@@ -30,6 +30,7 @@ function Navbar(props) {
           Add Trip
         </Link>
         <TimelinesDropdown
+          setTimelineId={props.setTimelineId}
           timelines={props.timelines}
           className={
             "ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
