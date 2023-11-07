@@ -1,9 +1,11 @@
 import { Textarea } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 function CreateEventPage(props) {
   const formatDate = "dd-MM-yyyy";
+  const navigate = useNavigate();
   const [newEvent, setEvent] = useState({
     id: null,
     timelineId: null,
@@ -34,7 +36,6 @@ function CreateEventPage(props) {
       endDate: endDate,
       imagePath: image,
     });
-    console.log(image);
   };
 
   const onImageChange = (event) => {
@@ -47,6 +48,7 @@ function CreateEventPage(props) {
     if (newEvent.id !== null) {
       console.log(newEvent);
       props.setEvents((prevEvents) => [...prevEvents, newEvent]);
+      navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newEvent]);
