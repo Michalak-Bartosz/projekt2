@@ -15,10 +15,10 @@ function DeleteConfirmation(props) {
 
   return (
     <>
-      <h1 className={props.className} onClick={() => setOpenModal(true)}>
+      <div className={props.className} onClick={() => setOpenModal(true)}>
         <AiTwotoneDelete className="text-2xl m-auto" />
         <div className="font-bold m-auto">Delete</div>
-      </h1>
+      </div>
       <Modal
         theme={modalCustomTheme}
         show={openModal}

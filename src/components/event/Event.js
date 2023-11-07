@@ -2,6 +2,7 @@ import React from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import CategoryAvatar from "../category/CategoryAvatar";
 import "react-vertical-timeline-component/style.min.css";
+import "./Event.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import DeleteConfirmation from "./DeleteConfirmation";
@@ -15,7 +16,7 @@ function Event(props) {
         borderRadius: "0.375rem",
       }}
       contentArrowStyle={{ borderRight: "7px solid  rgb(203 213 225" }}
-      dateClassName={"text-left"}
+      dateClassName={"text-left m-auto text-black"}
       date={props.event.startDate + " - " + props.event.endDate}
       icon={<CategoryAvatar category={props.category} />}
     >
@@ -44,7 +45,7 @@ function Event(props) {
             <h1 className="font-bold m-auto">Edit</h1>
           </Link>
           <DeleteConfirmation
-            className="ml-3 flex text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
+            className="flex w-min ml-3 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11 cursor-pointer"
             deleteEvent={props.deleteEvent}
             id={props.event.id}
           />

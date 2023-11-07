@@ -66,13 +66,15 @@ function EditEventPage(props) {
 
   return (
     <div className="block px-10">
-      <h1 className="text-6xl font-bold pb-10 text-center underline decoration-dotted">
+      <h1 className="text-6xl font-lobster font-bold m-auto w-max px-10 py-5 mb-10 text-center border-8 border-black border-dotted rounded-lg">
         Edit Trip
       </h1>
       <div className="text-left text-4xl">
         <div className="grid grid-rows-2 grid-cols-1 gap-4">
           <div className="flex">
-            <h1 className="font-bold underline mr-4">Name:</h1>
+            <h1 className="font-bold underline decoration-dotted mr-4">
+              Name:
+            </h1>
             <h1 className="text-slate-500">{event.name}</h1>
           </div>
           <input
@@ -85,7 +87,9 @@ function EditEventPage(props) {
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
           <div className="flex">
-            <h1 className="font-bold underline mr-4">Category:</h1>
+            <h1 className="font-bold underline decoration-dotted mr-4">
+              Category:
+            </h1>
             <h1 className="text-slate-500">{category.name}</h1>
           </div>
           <select
@@ -102,7 +106,9 @@ function EditEventPage(props) {
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
           <div className="flex">
-            <h1 className="font-bold underline mr-4">Start date:</h1>
+            <h1 className="font-bold underline decoration-dotted mr-4">
+              Start date:
+            </h1>
             <h1 className="text-slate-500">{event.startDate}</h1>
           </div>
           <input
@@ -117,7 +123,9 @@ function EditEventPage(props) {
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
           <div className="flex">
-            <h1 className="font-bold underline mr-4">End date:</h1>
+            <h1 className="font-bold underline decoration-dotted mr-4">
+              End date:
+            </h1>
             <h1 className="text-slate-500">{event.endDate}</h1>
           </div>
           <input
@@ -131,7 +139,7 @@ function EditEventPage(props) {
           />
         </div>
         <div className="m-auto mt-4">
-          <h1 className="font-bold underline">Description</h1>
+          <h1 className="font-bold underline decoration-dotted">Description</h1>
           <Textarea
             id="description-textarea"
             className="mt-4 rounded-md text-3xl border-0 shadow-md h-64"
@@ -140,7 +148,9 @@ function EditEventPage(props) {
           />
         </div>
         <div className="m-auto mt-4">
-          <h1 className="font-bold underline">Upload image...</h1>
+          <h1 className="font-bold underline decoration-dotted">
+            Upload image
+          </h1>
           <input
             id="image-input"
             className="rounded-md text-4xl mt-4"

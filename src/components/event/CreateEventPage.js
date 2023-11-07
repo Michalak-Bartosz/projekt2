@@ -1,12 +1,18 @@
 import { Textarea } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 
 function CreateEventPage(props) {
   const formatDate = "dd-MM-yyyy";
   const navigate = useNavigate();
-  const [newEvent, setEvent] = useState({
+  const getTimeline = useCallback(
+    (id) => {
+      return props.timelines.find((timeline) => timeline.id === id);
+    },
+    [props.timelines]
+  );
+  const [newEvent, setNewEvent] = useState({
     id: null,
     timelineId: null,
     categoryId: null,
@@ -17,6 +23,7 @@ function CreateEventPage(props) {
     imagePath: "",
   });
 
+  const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
   const [name, setName] = useState();
   const [categoryId, setCategoryId] = useState(1);
   const [startDate, setStartDate] = useState();
@@ -26,7 +33,7 @@ function CreateEventPage(props) {
 
   const saveNewTrip = () => {
     let id = Math.max(...props.events.map((e) => e.id)) + 1;
-    setEvent({
+    setNewEvent({
       id: parseInt(id),
       timelineId: parseInt(props.timelineId),
       categoryId: parseInt(categoryId),
@@ -46,21 +53,30 @@ function CreateEventPage(props) {
 
   useEffect(() => {
     if (newEvent.id !== null) {
-      console.log(newEvent);
       props.setEvents((prevEvents) => [...prevEvents, newEvent]);
-      navigate("/");
+      navigate("/create");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newEvent]);
 
+  useEffect(() => {
+    setTimeline(getTimeline(props.timelineId));
+  }, [props.timelineId, getTimeline]);
+
   return (
     <div className="block px-10">
-      <h1 className="text-6xl font-bold pb-10 text-center underline decoration-dotted">
-        Add New Trip
-      </h1>
+      <div className="p-8 font-lobster my-6 mb-12 mx-auto w-max border-8 border-black border-dotted rounded-lg text-center">
+        <h1 id="homepage-title" className="text-6xl font-bold m-auto mb-6">
+          Add New Trip in
+        </h1>
+        <div className="border-2 border-black my-4" />
+        <h2 className="text-5xl font-bold m-auto text-slate-700">
+          {timeline.name}
+        </h2>
+      </div>
       <div className="text-left text-4xl">
         <div className="grid grid-rows-2 grid-cols-1 gap-4">
-          <h1 className="font-bold underline mr-4">Name</h1>
+          <h1 className="font-bold underline decoration-dotted mr-4">Name</h1>
           <input
             id="name-input"
             className="rounded-md text-3xl border-0 shadow-md w-1/3"
@@ -70,7 +86,9 @@ function CreateEventPage(props) {
           />
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
-          <h1 className="font-bold underline mr-4">Category</h1>
+          <h1 className="font-bold underline decoration-dotted mr-4">
+            Category
+          </h1>
           <select
             id="category-select"
             className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
@@ -84,7 +102,9 @@ function CreateEventPage(props) {
           </select>
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
-          <h1 className="font-bold underline mr-4">Start date</h1>
+          <h1 className="font-bold underline decoration-dotted mr-4">
+            Start date
+          </h1>
           <input
             id="startdate-input"
             className="rounded-md text-3xl border-0 shadow-md mr-auto"
@@ -96,7 +116,9 @@ function CreateEventPage(props) {
           />
         </div>
         <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
-          <h1 className="font-bold underline mr-4">End date:</h1>
+          <h1 className="font-bold underline decoration-dotted mr-4">
+            End date:
+          </h1>
 
           <input
             id="enddate-input"
@@ -109,7 +131,7 @@ function CreateEventPage(props) {
           />
         </div>
         <div className="m-auto mt-4">
-          <h1 className="font-bold underline">Description</h1>
+          <h1 className="font-bold underline decoration-dotted">Description</h1>
           <Textarea
             id="description-textarea"
             className="mt-4 rounded-md text-3xl border-0 shadow-md h-64"
@@ -118,7 +140,9 @@ function CreateEventPage(props) {
           />
         </div>
         <div className="m-auto mt-4">
-          <h1 className="font-bold underline">Upload image...</h1>
+          <h1 className="font-bold underline decoration-dotted">
+            Upload image
+          </h1>
           <input
             id="image-input"
             className="rounded-md text-4xl mt-4"
