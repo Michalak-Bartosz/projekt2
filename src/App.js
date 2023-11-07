@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/navbar/Navbar";
@@ -9,12 +9,22 @@ import { Cateogries } from "./loadData/Categories";
 import { Timelines } from "./loadData/Timelines";
 import EditEventPage from "./components/event/EditEventPage";
 import CreateEventPage from "./components/event/CreateEventPage";
+import { parse } from "date-fns";
 
 function App() {
   const [timelineId, setTimelineId] = useState(1);
   const [timelines, setTimelines] = useState(Timelines);
   const [events, setEvents] = useState(Events);
   const [categories, setCategories] = useState(Cateogries);
+
+  useEffect(() => {
+    const formatDate = "dd-MM-yyyy";
+    events.sort(
+      (a, b) =>
+        parse(a.startDate, formatDate, new Date()) -
+        parse(b.startDate, formatDate, new Date())
+    );
+  }, [events]);
 
   return (
     <>
@@ -46,6 +56,7 @@ function App() {
             path="/create"
             element={
               <CreateEventPage
+                timelineId={timelineId}
                 events={events}
                 setEvents={setEvents}
                 categories={categories}
@@ -69,6 +80,7 @@ function App() {
             path="/event/edit/*"
             element={
               <EditEventPage
+                timelineId={timelineId}
                 events={events}
                 setEvents={setEvents}
                 categories={categories}

@@ -1,8 +1,12 @@
 import { Textarea } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
 
 function EditEventPage(props) {
+  const formatDate = "dd-MM-yyyy";
   const queryParams = new URLSearchParams(window.location.search);
+  const navigate = useNavigate();
 
   const getEvent = (id) => {
     return props.events.find((event) => event.id === parseInt(id));
@@ -12,78 +16,149 @@ function EditEventPage(props) {
     return props.categories.find((category) => category.id === id);
   };
 
-  const event = getEvent(queryParams.get("id"));
-  const category = getCategory(event.categoryId);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const event = useMemo(() => getEvent(queryParams.get("id")), []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const category = useMemo(() => getCategory(event.categoryId), []);
+
+  const [updated, setUpdated] = useState(false);
+  const [name, setName] = useState(event.name);
+  const [categoryId, setCategoryId] = useState(event.categoryId);
+  const [startDate, setStartDate] = useState(event.startDate);
+  const [endDate, setEndDate] = useState(event.endDate);
+  const [description, setDescription] = useState(event.description);
+  const [image, setImage] = useState(event.imagePath);
+
+  const updateTrip = () => {
+    event.categoryId = returnIfChanged(event.categoryId, parseInt(categoryId));
+    event.name = returnIfChanged(event.name, name);
+    event.description = returnIfChanged(event.description, description);
+    event.startDate = returnIfChanged(event.startDate, startDate);
+    event.endDate = returnIfChanged(event.endDate, endDate);
+    event.imagePath = returnIfChanged(event.imagePath, image);
+    setUpdated(true);
+  };
+
+  const returnIfChanged = (currentValue, newValue) => {
+    if (currentValue !== newValue) {
+      return newValue;
+    }
+    return currentValue;
+  };
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
+  useEffect(() => {
+    if (updated === true) {
+      props.setEvents((prevEvents) => [
+        ...prevEvents.filter((e) => e.id !== event.id),
+        event,
+      ]);
+      navigate("/");
+      setUpdated(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [updated]);
 
   return (
-    <form className="m-auto px-20 text-left text-4xl">
-      <div className="grid grid-rows-2 grid-cols-1 gap-2 my-auto my-6">
-        <div className="flex">
-          <h1 className="font-bold underline mr-4">Name:</h1>
-          <h1 className="text-slate-500">{event.name}</h1>
+    <div className="block px-10">
+      <h1 className="text-6xl font-bold pb-10 text-center underline decoration-dotted">
+        Edit Trip
+      </h1>
+      <div className="text-left text-4xl">
+        <div className="grid grid-rows-2 grid-cols-1 gap-4">
+          <div className="flex">
+            <h1 className="font-bold underline mr-4">Name:</h1>
+            <h1 className="text-slate-500">{event.name}</h1>
+          </div>
+          <input
+            id="name-input"
+            className="rounded-md text-3xl border-0 shadow-md w-1/3"
+            type="text"
+            placeholder="New name..."
+            onChange={(e) => setName(e.target.value)}
+          />
         </div>
-        <input
-          className="rounded-md text-3xl border-0 shadow-md w-1/3"
-          type="text"
-          placeholder="New name..."
-        />
-      </div>
-      <div className="grid grid-rows-2 grid-cols-1 gap-2 my-auto my-6">
-        <div className="flex">
-          <h1 className="font-bold underline mr-4">Category:</h1>
-          <h1 className="text-slate-500">{category.name}</h1>
+        <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
+          <div className="flex">
+            <h1 className="font-bold underline mr-4">Category:</h1>
+            <h1 className="text-slate-500">{category.name}</h1>
+          </div>
+          <select
+            id="category-select"
+            className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
+            onChange={(e) => setCategoryId(e.target.value)}
+          >
+            {props.categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <select className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto">
-          {props.categories.map((category) => (
-            <option key={category.id} value={category}>
-              {category.name}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="grid grid-rows-2 grid-cols-1 gap-2 my-auto my-6">
-        <div className="flex">
-          <h1 className="font-bold underline mr-4">Start date:</h1>
-          <h1 className="text-slate-500">{event.startDate}</h1>
+        <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
+          <div className="flex">
+            <h1 className="font-bold underline mr-4">Start date:</h1>
+            <h1 className="text-slate-500">{event.startDate}</h1>
+          </div>
+          <input
+            id="startdate-input"
+            className="rounded-md text-3xl border-0 shadow-md mr-auto"
+            type="date"
+            onChange={(e) => {
+              let newDate = format(new Date(e.target.value), formatDate);
+              setStartDate(newDate);
+            }}
+          />
         </div>
-        <input
-          className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
-          type="date"
-        />
-      </div>
-      <div className="grid grid-rows-2 grid-cols-1 gap-2 my-auto my-6">
-        <div className="flex">
-          <h1 className="font-bold underline mr-4">End date:</h1>
-          <h1 className="text-slate-500">{event.endDate}</h1>
+        <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
+          <div className="flex">
+            <h1 className="font-bold underline mr-4">End date:</h1>
+            <h1 className="text-slate-500">{event.endDate}</h1>
+          </div>
+          <input
+            id="enddate-input"
+            className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
+            type="date"
+            onChange={(e) => {
+              let newDate = format(new Date(e.target.value), formatDate);
+              setEndDate(newDate);
+            }}
+          />
         </div>
-        <input
-          className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
-          type="date"
-        />
+        <div className="m-auto mt-4">
+          <h1 className="font-bold underline">Description</h1>
+          <Textarea
+            id="description-textarea"
+            className="mt-4 rounded-md text-3xl border-0 shadow-md h-64"
+            placeholder={event.description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="m-auto mt-4">
+          <h1 className="font-bold underline">Upload image...</h1>
+          <input
+            id="image-input"
+            className="rounded-md text-4xl mt-4"
+            type="file"
+            accept="image/*"
+            onChange={onImageChange}
+          />
+        </div>
+        <div className="m-auto rounded-lg border-2 border-black my-6" />
+        <button
+          type="submit"
+          className="border-2 border-black px-6 py-2 rounded-md bg-cyan-600 font-bold shadow-md hover:bg-cyan-500 hover:shadow-lg"
+          onClick={updateTrip}
+        >
+          Submit
+        </button>
       </div>
-      <div className="m-auto">
-        <label className="font-bold underline">Description</label>
-        <Textarea
-          className="mt-6 rounded-md text-3xl border-0 shadow-md h-64"
-          placeholder={event.description}
-        />
-      </div>
-      <div className="m-auto">
-        <h1 className="font-bold underline my-auto my-6">Upload image...</h1>
-        <input
-          className="rounded-md my-auto text-4xl flex"
-          type="file"
-          accept="image/*"
-        />
-      </div>
-      <div className="m-auto rounded-lg border-2 border-black my-6" />
-      <button
-        type="submit"
-        className="border-2 border-black px-6 py-2 rounded-md bg-cyan-600 font-bold shadow-md hover:bg-cyan-500 hover:shadow-lg"
-      >
-        Submit
-      </button>
-    </form>
+    </div>
   );
 }
 

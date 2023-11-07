@@ -17,7 +17,7 @@ function DeleteConfirmation(props) {
     <>
       <h1 className={props.className} onClick={() => setOpenModal(true)}>
         <AiTwotoneDelete className="text-2xl m-auto" />
-        <label className="font-bold m-auto">Delete</label>
+        <div className="font-bold m-auto">Delete</div>
       </h1>
       <Modal
         theme={modalCustomTheme}

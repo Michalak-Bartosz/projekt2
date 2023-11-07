@@ -41,10 +41,10 @@ function Event(props) {
             to={"/event/edit?id=" + props.event.id}
           >
             <FaEdit className="text-2xl m-auto" />
-            <label className="font-bold m-auto">Edit</label>
+            <h1 className="font-bold m-auto">Edit</h1>
           </Link>
           <DeleteConfirmation
-            className="ml-5 flex text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
+            className="ml-3 flex text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
             deleteEvent={props.deleteEvent}
             id={props.event.id}
           />
