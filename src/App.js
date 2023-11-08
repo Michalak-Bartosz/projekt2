@@ -34,6 +34,7 @@ function App() {
       className="grid m-auto min-h-full min-w-full bg-gradient-to-t from-slate-400 to-white"
     >
       <Navbar
+        timelineId={timelineId}
         setTimelineId={setTimelineId}
         timelines={timelines}
         setTimelines={setTimelines}

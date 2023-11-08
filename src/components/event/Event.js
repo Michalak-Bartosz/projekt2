@@ -45,7 +45,7 @@ function Event(props) {
             <h1 className="font-bold m-auto">Edit</h1>
           </Link>
           <DeleteConfirmation
-            className="flex w-min ml-3 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11 cursor-pointer"
+            className="flex w-min ml-3 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto p-1 h-11 cursor-pointer"
             deleteEvent={props.deleteEvent}
             id={props.event.id}
           />
