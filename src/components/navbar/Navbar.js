@@ -44,7 +44,7 @@ function Navbar(props) {
   return (
     <nav
       id="navbar"
-      className="nav z-10 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
+      className="nav z-20 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
       style={{
         backgroundColor: navColor,
         height: navSize,
@@ -71,7 +71,7 @@ function Navbar(props) {
         />
         TripLine
       </Link>
-      <div className="flex">
+      <div id="navbar-buttons" className="flex">
         <h1
           className="m-auto text-4xl font-bold"
           style={{
@@ -106,13 +106,13 @@ function Navbar(props) {
               "ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
             }
           />
-          <Link
+          <button
             id="print-link"
             className="ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
-            to="/print"
+            onClick={() => {window.print();return false;}}
           >
             Print
-          </Link>
+          </button>
         </div>
       </div>
     </nav>

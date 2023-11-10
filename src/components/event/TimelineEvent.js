@@ -2,12 +2,12 @@ import React from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import CategoryAvatar from "../category/CategoryAvatar";
 import "react-vertical-timeline-component/style.min.css";
-import "./Event.css";
+import "./TimelineEvent.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import DeleteConfirmation from "./DeleteConfirmation";
 
-function Event(props) {
+function TimelineEvent(props) {
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element"
@@ -55,4 +55,4 @@ function Event(props) {
   );
 }
 
-export default Event;
+export default TimelineEvent;

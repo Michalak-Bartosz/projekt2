@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import Navbar from "./components/navbar/Navbar";
@@ -14,19 +14,61 @@ import CreateTimeline from "./components/timeline/CreateTimeline";
 import CreateTripPage from "./components/CreateTripPage";
 
 function App() {
+  const formatDate = "dd-MM-yyyy";
   const [timelineId, setTimelineId] = useState(1);
   const [timelines, setTimelines] = useState(Timelines);
   const [events, setEvents] = useState(Events);
   const [categories, setCategories] = useState(Cateogries);
+  const [sortParam, setSortParam] = useState("Start Date");
+  const [isTimelineMode, setIsTimelineMode] = useState(true);
+
+  const getTimeline = useCallback(
+    (id) => {
+      return timelines.find((timeline) => timeline.id === id);
+    },
+    [timelines]
+  );
+
+  const getTimelineEvents = useCallback(
+    (id) => {
+      return events
+        .filter((event) => event.timelineId === id)
+        .sort((a, b) => a.startDate > b.startDate);
+    },
+    [events]
+  );
+  const [timeline, setTimeline] = useState(getTimeline(timelineId));
+  const [timelineEvents, setTimelineEvents] = useState(
+    getTimelineEvents(timelineId)
+  );
 
   useEffect(() => {
-    const formatDate = "dd-MM-yyyy";
-    events.sort(
-      (a, b) =>
-        parse(a.startDate, formatDate, new Date()) -
-        parse(b.startDate, formatDate, new Date())
-    );
-  }, [events]);
+    if (sortParam === "Start Date") {
+      events.sort(
+        (a, b) =>
+          parse(a.startDate, formatDate, new Date()) -
+          parse(b.startDate, formatDate, new Date())
+      );
+    } else if (sortParam === "End Date") {
+      events.sort(
+        (a, b) =>
+          parse(b.endDate, formatDate, new Date()) -
+          parse(a.endDate, formatDate, new Date())
+      );
+    } else if (sortParam === "Name") {
+      events.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    setTimeline(getTimeline(timelineId));
+    setTimelineEvents(getTimelineEvents(timelineId));
+  }, [events, getTimeline, getTimelineEvents, sortParam, timelineId]);
 
   return (
     <div
@@ -45,13 +87,15 @@ function App() {
             path="/"
             element={
               <HomePage
-                timelineId={timelineId}
-                timelines={timelines}
-                setTimelines={setTimelines}
-                events={events}
+                timeline={timeline}
+                events={timelineEvents}
                 setEvents={setEvents}
                 categories={categories}
                 setCategorie={setCategories}
+                sortParam={sortParam}
+                setSortParam={setSortParam}
+                isTimelineMode={isTimelineMode}
+                setIsTimelineMode={setIsTimelineMode}
               />
             }
           />
@@ -60,6 +104,7 @@ function App() {
             element={
               <CreateTimeline
                 timelineId={timelineId}
+                setTimelineId={setTimelineId}
                 timelines={timelines}
                 setTimelines={setTimelines}
               />

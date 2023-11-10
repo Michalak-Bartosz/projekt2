@@ -26,3 +26,17 @@ code {
 #root {
   height: 100%;
 }
+
+@media print {
+  #navbar-buttons {
+    display: none;
+  }
+
+  #switch-button {
+    display: none;
+  }
+
+  #sort-filter-button {
+    display: none;
+  }
+}

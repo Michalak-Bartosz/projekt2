@@ -1,48 +1,36 @@
-import React, { useCallback, useEffect, useState } from "react";
-import Event from "./event/Event";
-import { VerticalTimeline } from "react-vertical-timeline-component";
+import React from "react";
 import "react-vertical-timeline-component/style.min.css";
-import AirPlaneBackground from "../images/airplane_background.png";
+import AirPlane1Background from "../images/background/airplane_dotted_b_1.png";
+import SortFilterMenu from "./options/SortFilterMenu";
+import SwitchView from "./options/SwitchView";
+import Timeline from "./timeline/Timeline";
+import EventTable from "./table/Table";
 
 function HomePage(props) {
-  const getTimeline = useCallback(
-    (id) => {
-      return props.timelines.find((timeline) => timeline.id === id);
-    },
-    [props.timelines]
-  );
+  // const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
+  // const [events, setEvents] = useState(getEvents(props.timelineId));
 
-  const getEvents = useCallback(
-    (id) => {
-      return props.events
-        .filter((event) => event.timelineId === id)
-        .sort((a, b) => a.startDate > b.startDate);
-    },
-    [props.events]
-  );
-
-  const deleteEvent = (id) => {
-    props.setEvents((events) => events.filter((event) => event.id !== id));
-  };
-
-  const getCategory = (id) => {
-    return props.categories.find((category) => category.id === id);
-  };
-
-  const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
-  const [events, setEvents] = useState(getEvents(props.timelineId));
-
-  useEffect(() => {
-    setTimeline(getTimeline(props.timelineId));
-    setEvents(getEvents(props.timelineId));
-  }, [props.timelineId, getEvents, getTimeline]);
+  // useEffect(() => {
+  //   setTimeline(getTimeline(props.timelineId));
+  //   setEvents(getEvents(props.timelineId));
+  // }, [props.timelineId, getEvents, getTimeline, props.isTimelineMode]);
 
   return (
     <>
       <img
-        className="z-0 fixed flex w-1/2 bottom-0 scroll-auto"
-        src={AirPlaneBackground}
+        className="z-0 fixed flex w-1/2 bottom-0 scroll-auto opacity-30"
+        src={AirPlane1Background}
         alt="AirplaneBackground"
+      />
+      <SortFilterMenu
+        sortParam={props.sortParam}
+        setSortParam={props.setSortParam}
+        setEvents={props.setEvents}
+      />
+      <SwitchView
+        isTimelineMode={props.isTimelineMode}
+        setIsTimelineMode={props.setIsTimelineMode}
+        setEvents={props.setEvents}
       />
       <div className="relative h-full w-full m-auto text-center">
         <div className="p-8 font-lobster my-6 mb-12 mx-auto w-max border-8 border-black border-dotted rounded-lg text-center">
@@ -51,25 +39,14 @@ function HomePage(props) {
           </h1>
           <div className="border-2 border-black my-4" />
           <h2 className="text-5xl font-bold m-auto text-slate-700">
-            {timeline.name}
+            {props.timeline.name}
           </h2>
         </div>
-        <h1 className="m-auto w-fit text-white bg-slate-500 py-2 px-4 text-2xl font-bold rounded-md">
-          START
-        </h1>
-        <VerticalTimeline>
-          {events.map((event) => (
-            <Event
-              key={event.id}
-              event={event}
-              category={getCategory(event.categoryId)}
-              deleteEvent={deleteEvent}
-            />
-          ))}
-        </VerticalTimeline>
-        <h1 className="m-auto w-fit text-white bg-slate-500 py-2 px-4 text-2xl font-bold rounded-md">
-          END
-        </h1>
+        {props.isTimelineMode ? (
+          <Timeline events={props.events} categories={props.categories} />
+        ) : (
+          <EventTable events={props.events} categories={props.categories} />
+        )}
       </div>
     </>
   );

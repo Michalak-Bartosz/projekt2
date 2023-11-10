@@ -5,6 +5,6 @@ export const Timelines = [
   },
   {
     id: 2,
-    name: "Adam's Timeline",
+    name: "Tomek's Timeline",
   },
 ];
