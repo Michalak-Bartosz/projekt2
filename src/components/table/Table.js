@@ -3,6 +3,7 @@ import CategoryAvatar from "../category/CategoryAvatar";
 import { Link } from "react-router-dom";
 import DeleteConfirmation from "../event/DeleteConfirmation";
 import { FaEdit } from "react-icons/fa";
+import { Carousel } from "flowbite-react";
 
 function EventTable(props) {
   const deleteEvent = (id) => {
@@ -26,7 +27,7 @@ function EventTable(props) {
             <th className="border-2 border-slate-800 p-2">Options</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="bg-slate-400 bg-opacity-70">
           {props.events.map((event) => {
             return (
               <tr key={event.id} className="text-2xl w-min">
@@ -37,11 +38,13 @@ function EventTable(props) {
                   <CategoryAvatar category={getCategory(event.categoryId)} />
                 </td>
                 <td className="border-2 border-slate-800 rounded-md p-2 w-80">
-                  <img
-                    src={event.imagePath}
-                    alt=""
-                    className="pb-4 shadow-x1 rounded-md m-auto"
-                  />
+                  <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+                    <Carousel pauseOnHover>
+                      {event.images.map((image) => {
+                        return <img key={image} src={image} alt="" />;
+                      })}
+                    </Carousel>
+                  </div>
                 </td>
                 <td className="border-2 border-slate-800 rounded-md p-2">
                   {event.startDate}

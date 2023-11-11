@@ -6,8 +6,17 @@ import "./TimelineEvent.css";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import DeleteConfirmation from "./DeleteConfirmation";
+import { Carousel } from "flowbite-react";
 
 function TimelineEvent(props) {
+  const imgs = document.querySelectorAll(".gallery-image");
+  const fullPage = document.querySelector("#fullpage");
+  imgs.forEach((img) => {
+    img.addEventListener("click", function () {
+      fullPage.style.backgroundImage = "url(" + img.src + ")";
+      fullPage.style.display = "block";
+    });
+  });
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element"
@@ -21,11 +30,15 @@ function TimelineEvent(props) {
       icon={<CategoryAvatar category={props.category} />}
     >
       <h1 className="text-4xl font-bold pb-4">{props.event.name}</h1>
-      <img
-        src={props.event.imagePath}
-        alt=""
-        className="pb-4 shadow-x1 rounded-md w-5/6 m-auto"
-      />
+      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+        <Carousel pauseOnHover>
+          {props.event.images.map((image) => {
+            return (
+              <img className="gallery-image" key={image} src={image} alt="" />
+            );
+          })}
+        </Carousel>
+      </div>
       <h2 className="pb-4 w-5/6 m-auto text-2xl truncate block">
         {props.event.description}
       </h2>

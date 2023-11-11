@@ -7,14 +7,6 @@ import Timeline from "./timeline/Timeline";
 import EventTable from "./table/Table";
 
 function HomePage(props) {
-  // const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
-  // const [events, setEvents] = useState(getEvents(props.timelineId));
-
-  // useEffect(() => {
-  //   setTimeline(getTimeline(props.timelineId));
-  //   setEvents(getEvents(props.timelineId));
-  // }, [props.timelineId, getEvents, getTimeline, props.isTimelineMode]);
-
   return (
     <>
       <img
@@ -26,6 +18,8 @@ function HomePage(props) {
         sortParam={props.sortParam}
         setSortParam={props.setSortParam}
         setEvents={props.setEvents}
+        setFromDateFilter={props.setFromDateFilter}
+        setToDateFilter={props.setToDateFilter}
       />
       <SwitchView
         isTimelineMode={props.isTimelineMode}
@@ -43,9 +37,17 @@ function HomePage(props) {
           </h2>
         </div>
         {props.isTimelineMode ? (
-          <Timeline events={props.events} categories={props.categories} />
+          <Timeline
+            events={props.events}
+            setEvents={props.setEvents}
+            categories={props.categories}
+          />
         ) : (
-          <EventTable events={props.events} categories={props.categories} />
+          <EventTable
+            events={props.events}
+            setEvents={props.setEvents}
+            categories={props.categories}
+          />
         )}
       </div>
     </>

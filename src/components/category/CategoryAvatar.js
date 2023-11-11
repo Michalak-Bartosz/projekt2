@@ -3,7 +3,7 @@ import React from "react";
 function CategoryAvatar(props) {
   return (
     <img
-      src={props.category.imagePath}
+      src={props.category.images}
       alt=""
       className={
         "avatar aspect-square rounded-full shadow-xl m-auto p-2 " +

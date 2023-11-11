@@ -13,6 +13,7 @@ function SwitchView(props) {
         className="fixed block bg-slate-500 p-2 rounded-lg bg-opacity-20 cursor-pointer select-none items-center"
       >
         <input
+          id="input-switch"
           type="checkbox"
           checked={props.isTimelineMode}
           onChange={handleCheckboxChange}

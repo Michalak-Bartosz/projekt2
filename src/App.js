@@ -21,6 +21,8 @@ function App() {
   const [categories, setCategories] = useState(Cateogries);
   const [sortParam, setSortParam] = useState("Start Date");
   const [isTimelineMode, setIsTimelineMode] = useState(true);
+  const [fromDateFilter, setFromDateFilter] = useState(null);
+  const [toDateFilter, setToDateFilter] = useState(null);
 
   const getTimeline = useCallback(
     (id) => {
@@ -31,9 +33,7 @@ function App() {
 
   const getTimelineEvents = useCallback(
     (id) => {
-      return events
-        .filter((event) => event.timelineId === id)
-        .sort((a, b) => a.startDate > b.startDate);
+      return events.filter((event) => event.timelineId === id);
     },
     [events]
   );
@@ -42,7 +42,26 @@ function App() {
     getTimelineEvents(timelineId)
   );
 
-  useEffect(() => {
+  const filterEvents = useCallback(() => {
+    let filteredEvents = getTimelineEvents(timelineId);
+    if (fromDateFilter !== null) {
+      filteredEvents = filteredEvents.filter(
+        (event) =>
+          parse(event.startDate, formatDate, new Date()) >=
+          parse(fromDateFilter, formatDate, new Date())
+      );
+    }
+    if (toDateFilter !== null) {
+      filteredEvents = filteredEvents.filter(
+        (event) =>
+          parse(event.endDate, formatDate, new Date()) <=
+          parse(toDateFilter, formatDate, new Date())
+      );
+    }
+    setTimelineEvents(filteredEvents);
+  }, [fromDateFilter, getTimelineEvents, timelineId, toDateFilter]);
+
+  const sortEvents = useCallback(() => {
     if (sortParam === "Start Date") {
       events.sort(
         (a, b) =>
@@ -66,22 +85,51 @@ function App() {
         return 0;
       });
     }
+  }, [events, sortParam]);
+
+  useEffect(() => {
+    sortEvents();
     setTimeline(getTimeline(timelineId));
-    setTimelineEvents(getTimelineEvents(timelineId));
-  }, [events, getTimeline, getTimelineEvents, sortParam, timelineId]);
+    filterEvents();
+  }, [
+    fromDateFilter,
+    toDateFilter,
+    getTimeline,
+    getTimelineEvents,
+    sortEvents,
+    timelineId,
+    filterEvents,
+  ]);
 
   return (
     <div
       id="page"
       className="grid m-auto min-h-full min-w-full bg-gradient-to-t from-slate-400 to-white"
     >
+      <div
+        id="fullpage"
+        className="z-50"
+        style={{
+          display: "none",
+          position: "absolute",
+          top: "0px",
+          margin: "0px",
+          minWidth: "100%",
+          minHeight: "100%",
+          backgroundColor: "white",
+          backgroundSize: "content",
+          backgroundRepeat: "no-repeat no-repeat",
+          backgroundPosition: "center center",
+        }}
+        onClick={(e) => (e.target.style.display = "none")}
+      ></div>
       <Navbar
         timelineId={timelineId}
         setTimelineId={setTimelineId}
         timelines={timelines}
         setTimelines={setTimelines}
       />
-      <div className="m-auto p-8 pb-24 min-w-full mt-40 text-black font-eduTasBeginner">
+      <div className="m-auto p-8 pb-24 min-w-full mt-40 text-black font-courgette">
         <Routes>
           <Route
             path="/"
@@ -96,6 +144,8 @@ function App() {
                 setSortParam={setSortParam}
                 isTimelineMode={isTimelineMode}
                 setIsTimelineMode={setIsTimelineMode}
+                setFromDateFilter={setFromDateFilter}
+                setToDateFilter={setToDateFilter}
               />
             }
           />

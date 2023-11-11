@@ -9,11 +9,16 @@
     .vertical-timeline-element-content
     .vertical-timeline-element-date {
     position: absolute;
-    width: 100%;
+    width: max-content;
     left: 100;
     font-size: 25px;
     top: -6px;
     margin: 0;
+    height: min-content;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: rgb(148 163 184);
   }
 }
 

@@ -21,7 +21,7 @@ function CreateEventPage(props) {
     description: "",
     startDate: "",
     endDate: "",
-    imagePath: "",
+    images: "",
   });
 
   const [timeline, setTimeline] = useState(getTimeline(props.timelineId));
@@ -30,7 +30,7 @@ function CreateEventPage(props) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [description, setDescription] = useState();
-  const [image, setImage] = useState();
+  const [images, setImages] = useState();
 
   const saveNewTrip = () => {
     let id = Math.max(...props.events.map((e) => e.id)) + 1;
@@ -42,13 +42,18 @@ function CreateEventPage(props) {
       description: description,
       startDate: startDate,
       endDate: endDate,
-      imagePath: image,
+      images: images,
     });
   };
 
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+    if (event.target.files && event.target.files.length > 1) {
+      const newImageUrls = [];
+      const newFiles = [...event.target.files];
+      newFiles.forEach((image) =>
+        newImageUrls.push(URL.createObjectURL(image))
+      );
+      setImages(newImageUrls);
     }
   };
 
@@ -150,10 +155,11 @@ function CreateEventPage(props) {
           </div>
           <div className="m-auto mt-4">
             <h1 className="font-bold underline decoration-dotted">
-              Upload image
+              Add New Images
             </h1>
             <input
               id="image-input"
+              multiple
               className="rounded-md text-4xl mt-4"
               type="file"
               accept="image/*"

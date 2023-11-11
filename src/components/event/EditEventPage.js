@@ -2,6 +2,7 @@ import { Textarea } from "flowbite-react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 function EditEventPage(props) {
   const formatDate = "dd-MM-yyyy";
@@ -27,7 +28,7 @@ function EditEventPage(props) {
   const [startDate, setStartDate] = useState(event.startDate);
   const [endDate, setEndDate] = useState(event.endDate);
   const [description, setDescription] = useState(event.description);
-  const [image, setImage] = useState(event.imagePath);
+  const [images, setImages] = useState(event.images);
 
   const updateTrip = () => {
     event.categoryId = returnIfChanged(event.categoryId, parseInt(categoryId));
@@ -35,7 +36,7 @@ function EditEventPage(props) {
     event.description = returnIfChanged(event.description, description);
     event.startDate = returnIfChanged(event.startDate, startDate);
     event.endDate = returnIfChanged(event.endDate, endDate);
-    event.imagePath = returnIfChanged(event.imagePath, image);
+    event.images = returnIfChanged(event.images, images);
     setUpdated(true);
   };
 
@@ -46,9 +47,18 @@ function EditEventPage(props) {
     return currentValue;
   };
 
+  const deleteImage = (id) => {
+    setImages(images.filter((image) => image !== id));
+  };
+
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+    if (event.target.files && event.target.files.length > 1) {
+      const newImageUrls = [];
+      const newFiles = [...event.target.files];
+      newFiles.forEach((image) =>
+        newImageUrls.push(URL.createObjectURL(image))
+      );
+      setImages((images) => [...images, ...newImageUrls]);
     }
   };
 
@@ -58,7 +68,7 @@ function EditEventPage(props) {
         ...prevEvents.filter((e) => e.id !== event.id),
         event,
       ]);
-      navigate("/");
+      navigate(-1);
       setUpdated(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -143,21 +153,43 @@ function EditEventPage(props) {
           <Textarea
             id="description-textarea"
             className="mt-4 rounded-md text-3xl border-0 shadow-md h-64"
-            placeholder={event.description}
+            defaultValue={event.description}
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="m-auto mt-4">
-          <h1 className="font-bold underline decoration-dotted">
-            Upload image
-          </h1>
-          <input
-            id="image-input"
-            className="rounded-md text-4xl mt-4"
-            type="file"
-            accept="image/*"
-            onChange={onImageChange}
-          />
+        <div className="flex m-auto mt-4">
+          <div className="mr-6">
+            <h1 className="font-bold underline m-0 decoration-dotted">
+              Add New Images
+            </h1>
+            <input
+              id="image-input"
+              multiple
+              className="rounded-md text-2xl w-80 mt-4 border-4 border-slate-800"
+              type="file"
+              accept="image/*"
+              onChange={onImageChange}
+            />
+          </div>
+          <div className="min-w-0 min-h-full border-2 border-black rounded-md m-0" />
+          <div className="grid grid-flow-row grid-cols-3 min-w-max m-auto">
+            {images.map((image) => {
+              return (
+                <div key={image} className="rounded-md p-2">
+                  <img
+                    src={image}
+                    alt=""
+                    className="max-h-32 max-w-32 m-auto"
+                  />
+                  <DeleteConfirmation
+                    className="flex w-min text-2xl m-auto mt-2 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto p-1 h-11 cursor-pointer"
+                    deleteEvent={deleteImage}
+                    id={image}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className="m-auto rounded-lg border-2 border-black my-6" />
         <button
