@@ -1,9 +1,5 @@
 import React from "react";
-import CategoryAvatar from "../category/CategoryAvatar";
-import { Link } from "react-router-dom";
-import DeleteConfirmation from "../event/DeleteConfirmation";
-import { FaEdit } from "react-icons/fa";
-import { Carousel } from "flowbite-react";
+import TableEvent from "./TableEvent";
 
 function EventTable(props) {
   const deleteEvent = (id) => {
@@ -28,60 +24,14 @@ function EventTable(props) {
           </tr>
         </thead>
         <tbody className="bg-slate-400 bg-opacity-70">
-          {props.events.map((event) => {
+          {props.events.map((event, index) => {
             return (
-              <tr key={event.id} className="text-2xl w-min">
-                <td className="border-2 border-slate-800 rounded-md p-2 font-bold">
-                  {event.name}
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2 p-4 w-12 h-12">
-                  <CategoryAvatar category={getCategory(event.categoryId)} />
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2 w-80">
-                  <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
-                    <Carousel pauseOnHover>
-                      {event.images.map((image) => {
-                        return <img key={image} src={image} alt="" />;
-                      })}
-                    </Carousel>
-                  </div>
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2">
-                  {event.startDate}
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2">
-                  {event.endDate}
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2 m-auto">
-                  <h2 className="p-2 w-80 m-auto text-2xl truncate block">
-                    {event.description}
-                  </h2>
-                  <div className="flex m-auto">
-                    <Link
-                      className="flex m-auto py-2 px-4 border-slate-500 border-2 font-bold rounded-md bg-slate-200 hover:bg-slate-100 hover:shadow-md"
-                      to={"/event?id=" + event.id}
-                    >
-                      READ MORE 📑
-                    </Link>
-                  </div>
-                </td>
-                <td className="border-2 border-slate-800 rounded-md p-2 m-auto">
-                  <div className="flex ml-auto">
-                    <Link
-                      className="flex text-cyan-700 border-2 border-cyan-700 rounded-md hover:text-cyan-500 hover:border-cyan-500 hover:shadow-md hover:bg-slate-250 my-auto ml-auto p-1 h-11"
-                      to={"/event/edit?id=" + event.id}
-                    >
-                      <FaEdit className="text-2xl m-auto" />
-                      <h1 className="font-bold m-auto">Edit</h1>
-                    </Link>
-                    <DeleteConfirmation
-                      className="flex w-min ml-3 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto p-1 h-11 cursor-pointer"
-                      deleteEvent={deleteEvent}
-                      id={event.id}
-                    />
-                  </div>
-                </td>
-              </tr>
+              <TableEvent
+                key={event.id}
+                event={event}
+                category={getCategory(event.categoryId)}
+                deleteEvent={deleteEvent}
+              />
             );
           })}
         </tbody>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { VerticalTimelineElement } from "react-vertical-timeline-component";
 import CategoryAvatar from "../category/CategoryAvatar";
 import "react-vertical-timeline-component/style.min.css";
@@ -9,14 +9,19 @@ import DeleteConfirmation from "./DeleteConfirmation";
 import { Carousel } from "flowbite-react";
 
 function TimelineEvent(props) {
-  const imgs = document.querySelectorAll(".gallery-image");
-  const fullPage = document.querySelector("#fullpage");
-  imgs.forEach((img) => {
-    img.addEventListener("click", function () {
-      fullPage.style.backgroundImage = "url(" + img.src + ")";
-      fullPage.style.display = "block";
-    });
-  });
+  const [zoom, setZooom] = useState("scale(1)");
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const changeZoom = () => {
+    if (isZoomed) {
+      setZooom("scale(1)");
+      setIsZoomed(false);
+    } else {
+      setZooom("scale(2)");
+      setIsZoomed(true);
+    }
+  };
+  
   return (
     <VerticalTimelineElement
       className="vertical-timeline-element"
@@ -29,12 +34,25 @@ function TimelineEvent(props) {
       date={props.event.startDate + " - " + props.event.endDate}
       icon={<CategoryAvatar category={props.category} />}
     >
-      <h1 className="text-4xl font-bold pb-4">{props.event.name}</h1>
-      <div className="h-56 sm:h-64 xl:h-80 2xl:h-96">
+      <h1 className="text-4xl font-bold pt-4 underline decoration-dotted">
+        {props.event.name}
+      </h1>
+      <div
+        className="h-56 sm:h-64 xl:h-80 2xl:h-96 m-0 p-0 transition-all relative z-30"
+        style={{
+          transform: zoom,
+        }}
+      >
         <Carousel pauseOnHover>
           {props.event.images.map((image) => {
             return (
-              <img className="gallery-image" key={image} src={image} alt="" />
+              <img
+                className="cursor-pointer"
+                key={image}
+                src={image}
+                alt=""
+                onClick={changeZoom}
+              />
             );
           })}
         </Carousel>

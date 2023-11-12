@@ -29,6 +29,8 @@ export const Events = [
     endDate: format(new Date("2021-08-21"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2017/02/26/14/31/beach-2100369_1280.jpg",
+      "https://cdn.pixabay.com/photo/2022/01/22/12/51/mallorca-6957128_1280.jpg",
+      "https://cdn.pixabay.com/photo/2023/09/15/04/05/sea-8254024_1280.jpg",
     ],
   },
   {
@@ -42,6 +44,8 @@ export const Events = [
     endDate: format(new Date("2022-04-15"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2017/11/25/22/26/moss-2977795_1280.jpg",
+      "https://cdn.pixabay.com/photo/2019/06/17/15/13/roe-4280185_1280.jpg",
+      "https://cdn.pixabay.com/photo/2020/04/04/14/22/forest-5002473_1280.jpg",
     ],
   },
   {
@@ -55,6 +59,8 @@ export const Events = [
     endDate: format(new Date("2023-12-02"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2021/03/17/12/01/sea-6102171_1280.jpg",
+      "https://cdn.pixabay.com/photo/2021/04/19/18/36/windsurfing-6192144_1280.jpg",
+      "https://cdn.pixabay.com/photo/2017/02/22/22/21/tornado-2090803_1280.jpg",
     ],
   },
   {
@@ -68,6 +74,8 @@ export const Events = [
     endDate: format(new Date("2018-02-01"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2019/02/02/19/09/ciechocinek-3971192_1280.jpg",
+      "https://cdn.pixabay.com/photo/2018/05/10/19/28/ciechocinek-3388468_1280.jpg",
+      "https://cdn.pixabay.com/photo/2018/08/10/13/37/ciechocinek-3596876_1280.jpg",
     ],
   },
   {
@@ -81,6 +89,8 @@ export const Events = [
     endDate: format(new Date("2019-03-02"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2016/07/08/12/41/biaystok-1504257_1280.jpg",
+      "https://cdn.pixabay.com/photo/2022/01/07/14/32/krasnoyarsk-6921947_1280.jpg",
+      "https://cdn.pixabay.com/photo/2021/09/30/02/30/forest-6668798_1280.jpg",
     ],
   },
   {
@@ -94,6 +104,8 @@ export const Events = [
     endDate: format(new Date("2022-04-03"), formatDate),
     images: [
       "https://cdn.pixabay.com/photo/2019/05/08/22/01/helsinki-cathedral-4189825_1280.jpg",
+      "https://cdn.pixabay.com/photo/2013/11/27/07/15/leaves-219150_1280.jpg",
+      "https://cdn.pixabay.com/photo/2019/05/09/11/13/facade-4190976_1280.jpg",
     ],
   },
 ];

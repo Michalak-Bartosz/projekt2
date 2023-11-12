@@ -8,7 +8,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        livvic: ["Livvic", "sans-serif"],
         courgette: ["Courgette", "sans-serif"],
         lobster: ["Lobster", "sans-serif"],
       },

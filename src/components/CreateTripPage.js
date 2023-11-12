@@ -2,7 +2,7 @@ import { Dropdown } from "flowbite-react";
 import React from "react";
 import { HiViewGrid } from "react-icons/hi";
 import { IoIosArrowDropdown } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Earth from ".././images/background/earth.png";
 
 function CreateTripPage(props) {
@@ -34,12 +34,12 @@ function CreateTripPage(props) {
         </div>
         <div className="w-min m-auto">
           <div className="grid grid-rows-1 grid-cols-2 gap-4 justify-items-stretch m-auto text-4xl text-center w-max text-white font-lobster p-8 border-8 border-black border-dotted rounded-lg">
-            <button
+            <Link
               className="p-4 border rounded-lg bg-green-900 hover:bg-green-700 font-bold"
-              onClick={() => navigate("/create/timeline")}
+              to={"/create/timeline"}
             >
               Create New
-            </button>
+            </Link>
             <Dropdown label="" renderTrigger={getTrigger}>
               <Dropdown.Header className="block text-2xl underline text-white bg-slate-900 p-4 shadow-md">
                 <span>Select your timeline!</span>

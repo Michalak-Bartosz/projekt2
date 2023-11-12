@@ -44,7 +44,7 @@ function Navbar(props) {
   return (
     <nav
       id="navbar"
-      className="nav z-20 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
+      className="nav z-40 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
       style={{
         backgroundColor: navColor,
         height: navSize,
@@ -53,7 +53,7 @@ function Navbar(props) {
     >
       <Link
         id="logo"
-        className="inline-block mx-4 my-auto font-extrabold text-6xl"
+        className="inline-block mx-4 my-auto font-extrabold text-6xl min-w-[300px]"
         to="/"
         style={{
           color: textColor,
@@ -83,7 +83,7 @@ function Navbar(props) {
         </h1>
         <div
           id="navbar-menu"
-          className="grid grid-rows-1 grid-cols-4 justify-items-stretch my-auto text-2xl text-center"
+          className="grid grid-rows-1 grid-cols-5 justify-items-stretch my-auto text-2xl text-center min-w-[800px]"
         >
           <Link
             id="home-link"
@@ -99,6 +99,13 @@ function Navbar(props) {
           >
             Add Trip
           </Link>
+          <Link
+            id="create-link"
+            className="ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
+            to="/category"
+          >
+            Categories
+          </Link>
           <TimelinesDropdown
             setTimelineId={props.setTimelineId}
             timelines={props.timelines}
@@ -109,7 +116,10 @@ function Navbar(props) {
           <button
             id="print-link"
             className="ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
-            onClick={() => {window.print();return false;}}
+            onClick={() => {
+              window.print();
+              return false;
+            }}
           >
             Print
           </button>

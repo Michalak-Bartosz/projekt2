@@ -1,10 +1,11 @@
 import React from "react";
 import "react-vertical-timeline-component/style.min.css";
 import AirPlane1Background from "../images/background/airplane_dotted_b_1.png";
-import SortFilterMenu from "./options/SortFilterMenu";
-import SwitchView from "./options/SwitchView";
 import Timeline from "./timeline/Timeline";
 import EventTable from "./table/Table";
+import Options from "./options/Options";
+import { Tooltip } from "react-tooltip";
+import { BsInfoCircleFill } from "react-icons/bs";
 
 function HomePage(props) {
   return (
@@ -14,17 +15,16 @@ function HomePage(props) {
         src={AirPlane1Background}
         alt="AirplaneBackground"
       />
-      <SortFilterMenu
+      <Options
         sortParam={props.sortParam}
         setSortParam={props.setSortParam}
         setEvents={props.setEvents}
+        fromDateFilter={props.fromDateFilter}
+        toDateFilter={props.toDateFilter}
         setFromDateFilter={props.setFromDateFilter}
         setToDateFilter={props.setToDateFilter}
-      />
-      <SwitchView
         isTimelineMode={props.isTimelineMode}
         setIsTimelineMode={props.setIsTimelineMode}
-        setEvents={props.setEvents}
       />
       <div className="relative h-full w-full m-auto text-center">
         <div className="p-8 font-lobster my-6 mb-12 mx-auto w-max border-8 border-black border-dotted rounded-lg text-center">
@@ -36,18 +36,38 @@ function HomePage(props) {
             {props.timeline.name}
           </h2>
         </div>
-        {props.isTimelineMode ? (
-          <Timeline
-            events={props.events}
-            setEvents={props.setEvents}
-            categories={props.categories}
-          />
+        {props.events.length > 0 ? (
+          props.isTimelineMode ? (
+            <Timeline
+              events={props.events}
+              setEvents={props.setEvents}
+              categories={props.categories}
+            />
+          ) : (
+            <EventTable
+              events={props.events}
+              setEvents={props.setEvents}
+              categories={props.categories}
+            />
+          )
         ) : (
-          <EventTable
-            events={props.events}
-            setEvents={props.setEvents}
-            categories={props.categories}
-          />
+          <div className="m-auto">
+            <h1 className="text-6xl text-bold mb-12">
+              There are no trips on your timeline 😁
+            </h1>
+            <div className="flex text-5xl">
+              <h2 className="m-auto mr-0 underline decoration-dotted text-green-800">
+                Please create new one!
+              </h2>
+              <Tooltip id="new-trip-tooltip" />
+              <BsInfoCircleFill
+                className="m-auto ml-4 text-green-800"
+                data-tooltip-id="filter-tooltip"
+                data-tooltip-content="To add a new trip, use the 'Add Trip' button in the navigation bar."
+                data-tooltip-place="bottom"
+              />
+            </div>
+          </div>
         )}
       </div>
     </>

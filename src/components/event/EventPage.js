@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-vertical-timeline-component/style.min.css";
 import CategoryAvatar from "../category/CategoryAvatar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteConfirmation from "./DeleteConfirmation";
 import { FaEdit } from "react-icons/fa";
 import { Carousel } from "flowbite-react";
 
 function EventPage(props) {
+  const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
+  const [zoom, setZooom] = useState("scale(1)");
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  const changeZoom = () => {
+    if (isZoomed) {
+      setZooom("scale(1)");
+      setIsZoomed(false);
+    } else {
+      setZooom("scale(1.4)");
+      setIsZoomed(true);
+    }
+  };
 
   const getEvent = (id) => {
     return props.events.find((event) => event.id === parseInt(id));
@@ -19,6 +32,7 @@ function EventPage(props) {
 
   const deleteEvent = (id) => {
     props.setEvents((events) => events.filter((event) => event.id !== id));
+    navigate("/");
   };
 
   const event = getEvent(queryParams.get("id"));
@@ -27,15 +41,19 @@ function EventPage(props) {
   return (
     <div className="block text-center">
       <div id="event-header-section" className="flex mb-8 text-center">
-        <h1 className="text-6xl font-bold ml-auto mr-8 my-auto underline">
+        <h1 className="text-6xl font-bold ml-auto my-auto underline">
           {event.name}
         </h1>
-        <div className="flex w-24 h-24 mr-auto my-auto">
-          <CategoryAvatar category={category} className="mr-4" />
-          <h1 className="my-auto text-3xl font-bold text-slate-600">
-            {category.name}
-          </h1>
-        </div>
+        {category ? (
+          <div className="flex w-24 h-24 mr-auto my-auto ml-8">
+            <CategoryAvatar category={category} className="mr-4" />
+            <h1 className="my-auto text-3xl font-bold text-slate-600">
+              {category.name}
+            </h1>
+          </div>
+        ) : (
+          <div className="mr-auto" />
+        )}
       </div>
       <div className="flex m-auto mb-8">
         <Link
@@ -54,14 +72,27 @@ function EventPage(props) {
       <h2 className="text-3xl pb-4">
         {event.startDate + " - " + event.endDate}
       </h2>
-      <div className="h-[40rem] m-8">
+      <div
+        className="h-[12rem] sm:h-[24rem] xl:h-[36rem] 2xl:h-[46rem] mx-[32rem] p-0 transition-all relative z-30"
+        style={{
+          transform: zoom,
+        }}
+      >
         <Carousel pauseOnHover>
           {event.images.map((image) => {
-            return <img key={image} src={image} alt="" className="h-fit" />;
+            return (
+              <img
+                key={image}
+                className="cursor-pointer"
+                src={image}
+                alt=""
+                onClick={changeZoom}
+              />
+            );
           })}
         </Carousel>
       </div>
-      <h1 className="text-4xl font-bold pb-4 underline decoration-dotted">
+      <h1 className="text-4xl mt-8 font-bold pb-4 underline decoration-dotted">
         Description
       </h1>
       <h2 className="text-3xl p-4 m-auto">{event.description}</h2>

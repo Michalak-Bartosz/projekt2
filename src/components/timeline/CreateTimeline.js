@@ -22,7 +22,7 @@ function CreateTimeline(props) {
     if (newTimeline.id !== null) {
       props.setTimelines((prevTimelines) => [...prevTimelines, newTimeline]);
       props.setTimelineId(newTimeline.id)
-      navigate("/");
+      navigate(-1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newTimeline]);

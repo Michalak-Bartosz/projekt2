@@ -1,8 +1,9 @@
 import { Textarea } from "flowbite-react";
 import React, { useCallback, useEffect, useState } from "react";
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Car1Background from "../../images/background/car_dotted_b_1.png";
+import DeleteConfirmation from "./DeleteConfirmation";
 
 function CreateEventPage(props) {
   const formatDate = "dd-MM-yyyy";
@@ -30,7 +31,7 @@ function CreateEventPage(props) {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [description, setDescription] = useState();
-  const [images, setImages] = useState();
+  const [images, setImages] = useState([]);
 
   const saveNewTrip = () => {
     let id = Math.max(...props.events.map((e) => e.id)) + 1;
@@ -44,6 +45,10 @@ function CreateEventPage(props) {
       endDate: endDate,
       images: images,
     });
+  };
+
+  const deleteImage = (id) => {
+    setImages(images.filter((image) => image !== id));
   };
 
   const onImageChange = (event) => {
@@ -97,21 +102,40 @@ function CreateEventPage(props) {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
-          <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
-            <h1 className="font-bold underline decoration-dotted mr-4">
-              Category
-            </h1>
-            <select
-              id="category-select"
-              className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
-              onChange={(e) => setCategoryId(e.target.value)}
-            >
-              {props.categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+          <div className="flex mt-4">
+            <div className="grid grid-rows-2 grid-cols-1 gap-4">
+              <h1 className="font-bold underline decoration-dotted mr-4">
+                Category
+              </h1>
+              <select
+                id="category-select"
+                className="rounded-md text-3xl border-0 shadow-md my-auto mr-auto"
+                onChange={(e) => setCategoryId(e.target.value)}
+              >
+                {props.categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="min-h-full w-0 m-4 mx-8 border-2 border-slate-500 rounded-md" />
+            <div className="my-auto mr-12 text-center">
+              <h1 className="mb-4 font-bold">
+                There is no appropriate category?{" "}
+              </h1>
+              <h2 className="text-amber-900 underline decoration-dotted">
+                Change it!
+              </h2>
+            </div>
+            <div className="flex border-8 border-slate-500 border-dotted rounded-md">
+              <Link
+                className="text-white m-6 my-auto p-4 border-2 border-black rounded-lg bg-amber-900 hover:bg-amber-700 font-bold"
+                to="/category"
+              >
+                Manage Categories
+              </Link>
+            </div>
           </div>
           <div className="grid grid-rows-2 grid-cols-1 gap-4 mt-4">
             <h1 className="font-bold underline decoration-dotted mr-4">
@@ -153,18 +177,39 @@ function CreateEventPage(props) {
               onChange={(e) => setDescription(e.target.value)}
             />
           </div>
-          <div className="m-auto mt-4">
-            <h1 className="font-bold underline decoration-dotted">
-              Add New Images
-            </h1>
-            <input
-              id="image-input"
-              multiple
-              className="rounded-md text-4xl mt-4"
-              type="file"
-              accept="image/*"
-              onChange={onImageChange}
-            />
+          <div className="flex m-auto mt-4">
+            <div className="mr-6">
+              <h1 className="font-bold underline m-0 decoration-dotted">
+                Add New Images
+              </h1>
+              <input
+                id="image-input"
+                multiple
+                className="rounded-md text-2xl w-80 mt-4 border-4 border-slate-800"
+                type="file"
+                accept="image/*"
+                onChange={onImageChange}
+              />
+            </div>
+            <div className="min-w-0 min-h-full border-2 border-black rounded-md m-0" />
+            <div className="grid grid-flow-row grid-cols-3 min-w-max m-auto">
+              {images.map((image) => {
+                return (
+                  <div key={image} className="rounded-md p-2">
+                    <img
+                      src={image}
+                      alt=""
+                      className="max-h-32 max-w-32 m-auto"
+                    />
+                    <DeleteConfirmation
+                      className="flex w-min text-2xl m-auto mt-2 text-amber-950 border-2 border-amber-950 rounded-md hover:text-amber-700 hover:border-amber-700 hover:shadow-md hover:bg-slate-250 my-auto p-1 h-11 cursor-pointer"
+                      deleteEvent={deleteImage}
+                      id={image}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
           <div className="m-auto rounded-lg border-2 border-black my-6" />
           <button

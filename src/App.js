@@ -12,17 +12,27 @@ import CreateEventPage from "./components/event/CreateEventPage";
 import { parse } from "date-fns";
 import CreateTimeline from "./components/timeline/CreateTimeline";
 import CreateTripPage from "./components/CreateTripPage";
+import ManageCategoryPage from "./components/category/ManageCategory";
+import EditCategoryPage from "./components/category/EditCategoryPage";
+import CreateCategoryPage from "./components/category/CreateCategoryPage";
+import { useLocalStorage } from "./components/storage/LocalStorage";
 
 function App() {
   const formatDate = "dd-MM-yyyy";
-  const [timelineId, setTimelineId] = useState(1);
-  const [timelines, setTimelines] = useState(Timelines);
-  const [events, setEvents] = useState(Events);
-  const [categories, setCategories] = useState(Cateogries);
-  const [sortParam, setSortParam] = useState("Start Date");
-  const [isTimelineMode, setIsTimelineMode] = useState(true);
-  const [fromDateFilter, setFromDateFilter] = useState(null);
-  const [toDateFilter, setToDateFilter] = useState(null);
+  const [timelineId, setTimelineId] = useLocalStorage("timelineId", 1);
+  const [timelines, setTimelines] = useLocalStorage("timelines", Timelines);
+  const [events, setEvents] = useLocalStorage("events", Events);
+  const [categories, setCategories] = useLocalStorage("categories", Cateogries);
+  const [sortParam, setSortParam] = useLocalStorage("sortParam", "Start Date");
+  const [isTimelineMode, setIsTimelineMode] = useLocalStorage(
+    "isTimelineMode",
+    true
+  );
+  const [fromDateFilter, setFromDateFilter] = useLocalStorage(
+    "fromDateFilter",
+    null
+  );
+  const [toDateFilter, setToDateFilter] = useLocalStorage("toDateFilter", null);
 
   const getTimeline = useCallback(
     (id) => {
@@ -146,6 +156,17 @@ function App() {
                 setIsTimelineMode={setIsTimelineMode}
                 setFromDateFilter={setFromDateFilter}
                 setToDateFilter={setToDateFilter}
+                fromDateFilter={fromDateFilter}
+                toDateFilter={toDateFilter}
+              />
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <CreateTripPage
+                timelines={timelines}
+                setTimelineId={setTimelineId}
               />
             }
           />
@@ -173,11 +194,11 @@ function App() {
             }
           />
           <Route
-            path="/create"
+            path="/create/category"
             element={
-              <CreateTripPage
-                timelines={timelines}
-                setTimelineId={setTimelineId}
+              <CreateCategoryPage
+                categories={categories}
+                setCategories={setCategories}
               />
             }
           />
@@ -201,6 +222,24 @@ function App() {
                 timelineId={timelineId}
                 events={events}
                 setEvents={setEvents}
+                categories={categories}
+                setCategories={setCategories}
+              />
+            }
+          />
+          <Route
+            path="/category"
+            element={
+              <ManageCategoryPage
+                categories={categories}
+                setCategories={setCategories}
+              />
+            }
+          />
+          <Route
+            path="/category/edit/*"
+            element={
+              <EditCategoryPage
                 categories={categories}
                 setCategories={setCategories}
               />
