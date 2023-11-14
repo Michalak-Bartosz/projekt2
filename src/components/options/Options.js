@@ -30,7 +30,7 @@ function Options(props) {
   }, [status]);
 
   return (
-    <div id="sort-filter-button" className="relative z-10">
+    <div id="sort-filter-button" className="relative z-50">
       <div>
         <div
           className="z-10 text-center fixed top-50 right-14 cursor-pointer"

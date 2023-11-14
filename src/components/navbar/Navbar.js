@@ -18,6 +18,10 @@ function Navbar(props) {
     [props.timelines]
   );
 
+  const printTimeline = () => {
+    window.print();
+  };
+
   useEffect(() => {
     setTimeline(getTimeline(props.timelineId));
   }, [props.timelineId, getTimeline]);
@@ -44,7 +48,7 @@ function Navbar(props) {
   return (
     <nav
       id="navbar"
-      className="nav z-40 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
+      className="nav z-50 fixed flex m-auto top-0 left-0 p-4 w-full text-white flex place-content-between font-lobster border-t border-l border-r border-8 border-slate-800 border-dotted"
       style={{
         backgroundColor: navColor,
         height: navSize,
@@ -116,10 +120,7 @@ function Navbar(props) {
           <button
             id="print-link"
             className="ml-4 p-4 border rounded-lg bg-slate-900 hover:bg-slate-700 font-bold"
-            onClick={() => {
-              window.print();
-              return false;
-            }}
+            onClick={printTimeline}
           >
             Print
           </button>

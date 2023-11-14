@@ -115,6 +115,9 @@ function App() {
     <div
       id="page"
       className="grid m-auto min-h-full min-w-full bg-gradient-to-t from-slate-400 to-white"
+      style={{
+        width: window.width,
+      }}
     >
       <div
         id="fullpage"
@@ -139,7 +142,7 @@ function App() {
         timelines={timelines}
         setTimelines={setTimelines}
       />
-      <div className="m-auto p-8 pb-24 min-w-full mt-40 text-black font-courgette">
+      <div className="m-auto p-8 pb-24 mt-40 text-black font-courgette">
         <Routes>
           <Route
             path="/"

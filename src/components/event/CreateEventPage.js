@@ -52,7 +52,7 @@ function CreateEventPage(props) {
   };
 
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files.length > 1) {
+    if (event.target.files && event.target.files.length > 0) {
       const newImageUrls = [];
       const newFiles = [...event.target.files];
       newFiles.forEach((image) =>

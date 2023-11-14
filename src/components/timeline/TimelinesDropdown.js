@@ -8,9 +8,9 @@ function TimelinesDropdown(props) {
   const navigate = useNavigate();
   const getTrigger = () => {
     return (
-      <div className={props.className + " flex cursor-pointer"}>
+      <div className={props.className + " flex cursor-pointer my-auto justify-center"}>
         Timelines
-        <IoIosArrowDropdown className="m-auto ml-2 size-2xl" />
+        <IoIosArrowDropdown className="my-auto ml-2 size-2xl" />
       </div>
     );
   };

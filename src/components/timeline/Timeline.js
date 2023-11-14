@@ -11,7 +11,7 @@ function Timeline(props) {
     return props.categories.find((category) => category.id === id);
   };
   return (
-    <div>
+    <div id="timelineWrapper">
       <h1 className="m-auto w-fit text-white bg-slate-500 py-2 px-4 text-2xl font-bold rounded-md">
         START
       </h1>

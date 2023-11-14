@@ -53,7 +53,7 @@ function EditEventPage(props) {
   };
 
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files.length > 1) {
+    if (event.target.files && event.target.files.length > 0) {
       const newImageUrls = [];
       const newFiles = [...event.target.files];
       newFiles.forEach((image) =>
@@ -108,7 +108,9 @@ function EditEventPage(props) {
                 <h1 className="font-bold underline decoration-dotted mr-4">
                   Category:
                 </h1>
-                <h1 className="text-slate-500">{category.name}</h1>
+                <h1 className="text-slate-500">
+                  {category ? category.name : "No category"}
+                </h1>
               </div>
               <select
                 id="category-select"
