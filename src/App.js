@@ -119,23 +119,6 @@ function App() {
         width: window.width,
       }}
     >
-      <div
-        id="fullpage"
-        className="z-50"
-        style={{
-          display: "none",
-          position: "absolute",
-          top: "0px",
-          margin: "0px",
-          minWidth: "100%",
-          minHeight: "100%",
-          backgroundColor: "white",
-          backgroundSize: "content",
-          backgroundRepeat: "no-repeat no-repeat",
-          backgroundPosition: "center center",
-        }}
-        onClick={(e) => (e.target.style.display = "none")}
-      ></div>
       <Navbar
         timelineId={timelineId}
         setTimelineId={setTimelineId}
