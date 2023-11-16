@@ -125,7 +125,7 @@ function App() {
         timelines={timelines}
         setTimelines={setTimelines}
       />
-      <div className="m-auto p-8 pb-24 mt-40 text-black font-courgette">
+      <div className="p-8 pb-24 mt-40 text-black font-courgette">
         <Routes>
           <Route
             path="/"
